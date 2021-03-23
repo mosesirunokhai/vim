@@ -104,17 +104,3 @@ nnoremap <localleader>d :SlimeSend1 %debug<CR>
 " map <localleader>q to exit debug mode or IPython
 nnoremap <localleader>dq :SlimeSend1 exit<CR>   
 
-"###########################################################################
-" WORKING WITH SELENIUM
-" ##########################################################################
-"
-" Hide the browser driver
-" 
-:iabbrev selenium_imports
-            \from selenium import webdriver<cr>
-            \from selenium.webdriver.common.keys import Keys<cr>
-            \from selenium.webdriver.support.ui import Select<cr>
-            \from selenium.webdriver import ActionChains<cr>
-            \from selenium.webdriver.common.by import By<cr>
-            \from selenium.webdriver.support.ui import WebDriverWait<cr>
-            \from selenium.webdriver.support import expected_conditions as EC<cr>
