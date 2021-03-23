@@ -1,0 +1,120 @@
+"localleader for python files
+let maplocalleader = ' '
+
+    "comment a line
+     nnoremap <localleader>cc 0i#<esc>$
+"    create a file location full path
+    :iabbrev py_location <cr><cr>from sys import argv<cr>script = argv<cr>print(script)<cr><cr>
+"#########################################################################
+"
+"DATA ANALYSIS
+"
+"####################################################################### 
+"
+"importing the data-analysis libraries
+:iabbrev data_imports 
+            \import numpy as np<cr>
+            \import pandas as pd<cr>
+            \import matplotlib.pyplot as plt<cr>
+            \import seaborn as sns<cr>
+            \import os<cr>
+            \import datetime<cr>
+
+"importing selenium dependencies.
+:iabbrev selenium_imports
+            \from selenium import webdriver<cr>
+            \from selenium.webdriver.common.keys import Keys<cr>
+            \from selenium.webdriver.support.ui import Select<cr>
+            \from selenium.webdriver import ActionChains<cr>
+            \from selenium.webdriver.common.by import By<cr>
+            \from selenium.webdriver.support.ui import WebDriverWait<cr>
+            \from selenium.webdriver.support import expected_conditions as EC<cr>
+            \import functools
+            \import subprocess
+
+:iabbrev selenium_noscreen
+            \#flag = 0x08000000<cr>
+            \webdriver.common.service.subprocess.Popen = functools.partial(subprocess.Popen, creationflags = flag)
+
+"importing sklearn dependencies.
+:iabbrev sklearn_imports
+            \import sklearn<cr>
+
+" plotting a matplotlib chart
+:iabbrev plt_block 
+            \# Insert the plot below this line of code<cr>
+            \#plt.plot(x,y, color='',linestyle='-,--',label='',marker='o,.,*',line_width='')<cr>
+            \#plt.bar(x,y, color='',width='-,--',label='')<cr>
+            \#plt.pie(data, labels='data', explode='explode numeral list',shadow = True, startangle=90,wedgeprops = {'edgecolor':'black'},)<cr>
+            \#plt.title('')<cr>
+            \#plt.xlabel('')<cr>
+            \#plt.ylabel('')<cr>
+            \#plt.legend()<cr>
+            \#plt.tight_layout()<cr>
+            \#plt.grid(True)<cr>
+            \#plt.style.available()<cr>
+            \#plt.style.use()<cr>
+            \#plt.show()<cr>
+
+"######################################################################
+"
+"IPYTHON
+"
+"#####################################################################
+" start ipython for the dataProject venv
+nnoremap <localleader>sd :vertical term<cr> source ~/dataProjects/environment/bin/activate<cr>\ipython<cr><C-w>h 
+" start ipython for the dataSourceExtraction project
+nnoremap <localleader>sh :vertical term<cr> source ~/dataProjects/dataSourceExtraction/environment/bin/activate<cr>\ipython<cr><C-w>h 
+
+" map <localleader>r to run script
+nnoremap <localleader>r :IPythonCellRun<CR>
+
+" map <localleader>R to run script and time the execution
+nnoremap <localleader>R :IPythonCellRunTime<CR>
+
+" map <localleader>c to execute the current cell
+nnoremap <localleader><cr> :IPythonCellExecuteCell<CR>
+
+" map <localleader>C to execute the current cell and jump to the next cell
+nnoremap <localleader>cj :IPythonCellExecuteCellJump<CR>
+
+" map <localleader>l to clear IPython screen
+nnoremap <localleader>l :IPythonCellClear<CR>
+
+" map <localleader>x to close all Matplotlib figure windows
+nnoremap <localleader>x :IPythonCellClose<CR>
+
+" map [c and ]c to jump to the previous and next cell header
+nnoremap [c :IPythonCellPrevCell<CR>
+nnoremap ]c :IPythonCellNextCell<CR>
+
+" map <localleader>h to send the current line or current selection to IPython
+"nmap <localleader>h <Plug>SlimeLineSend
+"xmap <localleader>h <Plug>SlimeRegionSend
+
+" map <localleader>p to run the previous command
+nnoremap <localleader>cp :IPythonCellPrevCommand<CR>
+
+" map <localleader>Q to restart ipython
+nnoremap <localleader>Q :IPythonCellRestart<CR>
+
+" map <localleader>d to start debug mode
+nnoremap <localleader>d :SlimeSend1 %debug<CR>
+
+" map <localleader>q to exit debug mode or IPython
+nnoremap <localleader>dq :SlimeSend1 exit<CR>   
+
+"###########################################################################
+" WORKING WITH SELENIUM
+" ##########################################################################
+"
+" Hide the browser driver
+" 
+:iabbrev selenium_imports
+            \from selenium import webdriver<cr>
+            \from selenium.webdriver.common.keys import Keys<cr>
+            \from selenium.webdriver.support.ui import Select<cr>
+            \from selenium.webdriver import ActionChains<cr>
+            \from selenium.webdriver.common.by import By<cr>
+            \from selenium.webdriver.support.ui import WebDriverWait<cr>
+            \from selenium.webdriver.support import expected_conditions as EC<cr>
