@@ -26,7 +26,6 @@ set undofile
 set relativenumber
 set nohls " highlighted search
 set showcmd " shows commands
-set autochdir " set the vim dir to the file current dir
 set foldmethod=indent " this is for organizing codes
 set foldlevel=99
 set fileformat=unix
@@ -38,15 +37,19 @@ set laststatus=2
 set splitbelow
 set splitright
 set clipboard=unnamed
+set autochdir " set the vim dir to the file current dir
 "set termwinkey=<C-alt>
 set hidden
+
 let g:slime_target = "vimterminal"
 let g:ipython_cell_delimit_cells_by = "tags"
 let g:ipython_cell_tag = "# <codecell>"
-let NERDTreeShowHidden=1
+
 let g:jupyter_mapkeys = 0 "no key binding using with jupyter 
 "netrw line number
 let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
+" show hidden files.
+let NERDTreeShowHidden=1
 
 set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
@@ -71,6 +74,8 @@ Plug 'nvie/vim-flake8'
 Plug 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plug 'jpalardy/vim-slime', { 'for': 'python' }
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
+"Plug 'plytophogy/vim-virtualenv'
+"Plug 'PieterjanMontens/vim-pipenv'
 
 call plug#end()
 "plugin installation end
@@ -89,6 +94,17 @@ let g:netrw_browse_split=2
 let g:netrw_banner = 0
 let g:netrw_winsize = 25
 
+" Change python path for vim.
+"let pipenv_venv_path = system('pipenv --venv')
+"if shell_error == 0
+"  let venv_path = substitute(pipenv_venv_path, '\n', '', '')
+"  let $PYTHONPATH=venv_path . '/lib/python3.8/site-packages'
+"  let $PATH=venv_path . '/bin:' . $PATH
+"  let g:ycm_python_binary_path = venv_path . '/bin/python'
+"else
+"  let g:ycm_python_binary_path = 'python'
+"endif
+
 :augroup latexgroup
 
     "clear all autocommands
@@ -106,6 +122,7 @@ let g:netrw_winsize = 25
     :autocmd BufNewFile,BufRead *.py,*.pyw :source ~/.pyvimrc
 
 :augroup END
+
 
 let mapleader = ' ' " this sets the leader key to space bar
 
@@ -139,17 +156,8 @@ inoremap <leader>cc <esc>0i"<esc>$a
 "buffers toggle, increase and decrease buffers
 nnoremap <leader><leader> :wincmd w<cr>
 nnoremap <leader>+ :vertical resize +10<cr>
-nnoremap <leader>- :vertical resize -10+<cr>
-
-"inserting a terminal and a tree at the same time
-nnoremap <leader>tr :Ex<cr> :term<cr>
+nnoremap <leader>- :vertical resize -10<cr>
 
 " Nerdtree mappings
 "
 noremap <C-n> :NERDTreeToggle<cr>
-augroup nerdtreehidecwd
-  autocmd!
-  autocmd FileType nerdtree setlocal conceallevel=3
-          \ | syntax match NERDTreeHideCWD #^[</].*$# conceal
-          \ | setlocal concealcursor=n
-augroup end

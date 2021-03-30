@@ -5,6 +5,17 @@ let maplocalleader = ' '
      nnoremap <localleader>cc 0i#<esc>$
 "    create a file location full path
     :iabbrev py_location <cr><cr>from sys import argv<cr>script = argv<cr>print(script)<cr><cr>
+"
+" Change python path for vim to pipenv environment.
+let pipenv_venv_path = system('pipenv --venv')
+if shell_error == 0
+  let venv_path = substitute(pipenv_venv_path, '\n', '', '')
+  let $PYTHONPATH=venv_path . '/lib/python3.8/site-packages'
+  let $PATH=venv_path . '/bin:' . $PATH
+  let g:ycm_python_binary_path = venv_path . '/bin/python'
+else
+  let g:ycm_python_binary_path = 'python'
+endif
 "#########################################################################
 "
 "DATA ANALYSIS
@@ -32,7 +43,8 @@ let maplocalleader = ' '
             \import functools
             \import subprocess
 
-:iabbrev selenium_noscreen
+" suppressing browser during selenium section.
+:iabbrev selenium_noscreen 
             \#flag = 0x08000000<cr>
             \webdriver.common.service.subprocess.Popen = functools.partial(subprocess.Popen, creationflags = flag)
 
@@ -62,9 +74,7 @@ let maplocalleader = ' '
 "
 "#####################################################################
 " start ipython for the dataProject venv
-nnoremap <localleader>sd :vertical term<cr> source ~/dataProjects/environment/bin/activate<cr>\ipython<cr><C-w>h 
-" start ipython for the dataSourceExtraction project
-nnoremap <localleader>sh :vertical term<cr> source ~/dataProjects/dataSourceExtraction/environment/bin/activate<cr>\ipython<cr><C-w>h 
+nnoremap <localleader>ss :vertical term<cr> source ~/.local/share/virtualenvs/ipython_venv-H1ieZZ_x/bin/activate<cr>\ipython<cr><C-w>h 
 
 " map <localleader>r to run script
 nnoremap <localleader>r :IPythonCellRun<CR>
@@ -103,4 +113,5 @@ nnoremap <localleader>d :SlimeSend1 %debug<CR>
 
 " map <localleader>q to exit debug mode or IPython
 nnoremap <localleader>dq :SlimeSend1 exit<CR>   
+
 
