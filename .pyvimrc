@@ -1,29 +1,54 @@
 "localleader for python files
 let maplocalleader = ' '
 
-    "comment a line
-     nnoremap <localleader>cc 0i#<esc>$
-"    create a file location full path
-    :iabbrev py_location <cr><cr>from sys import argv<cr>script = argv<cr>print(script)<cr><cr>
-"
-" Change python path for vim to pipenv environment.
+"------------------------------------------------------------------------------
+"commenting a line 
+nnoremap <leader>cc 0i#<esc>$
+nnoremap <leader>cx mq0x`q
+inoremap <leader>cx <esc>mq0x`qi
+inoremap <leader>cc <esc>0i#<esc>$a
+
+"------------------------------------------------------------------------------
+"Change python path for vim to pipenv environment.
 let pipenv_venv_path = system('pipenv --venv')
 if shell_error == 0
-  let venv_path = substitute(pipenv_venv_path, '\n', '', '')
-  let $PYTHONPATH=venv_path . '/lib/python3.8/site-packages'
-  let $PATH=venv_path . '/bin:' . $PATH
-  let g:ycm_python_binary_path = venv_path . '/bin/python'
+    let venv_path = substitute(pipenv_venv_path, '\n', '', '')
+    let $PYTHONPATH=venv_path . '/lib/python3.8/site-packages'
+    let $PATH=venv_path . '/bin:' . $PATH
+    let g:ycm_python_binary_path = venv_path . '/bin/python'
 else
-  let g:ycm_python_binary_path = 'python'
+    let g:ycm_python_binary_path = 'python'
 endif
-"#########################################################################
-"
+
+"------------------------------------------------------------------------------
+"start ipython terminal when the first python file is opened
+nnoremap <localleader>ss :term<cr> source ~/.local/share/virtualenvs/interpreter__-chvtXAsL/bin/activate<cr>\ipython<cr><C-w>h 
+function IpythonTerm()
+    if len(term_list())==0
+        execute "normal! :term\<cr>"
+        let term_no = term_list()
+        call term_setsize(term_no[0], 10, 0)
+        call term_sendkeys(term_no[0], "source ~/.local/share/virtualenvs/interpreter__-chvtXAsL/bin/activate\<cr>")
+        call term_sendkeys(term_no[0], "ipython\<cr>")
+        call feedkeys("\<c-w>", "t")
+        call feedkeys("k", "t")
+"        call feedkeys("i", "t")
+    endif
+endfunction
+call IpythonTerm()
+
+"------------------------------------------------------------------------------
+"slime and ipython settitngs
+let g:slime_target = "vimterminal"
+let g:ipython_cell_delimit_cells_by = "tags"
+let g:ipython_cell_tag = "# <codecell>"
+let g:jupyter_mapkeys = 0 "no key binding using with jupyter 
+
+"------------------------------------------------------------------------------
 "DATA ANALYSIS
 "
-"####################################################################### 
-"
 "importing the data-analysis libraries
-:iabbrev data_imports 
+:iabbrev data_import 
             \import numpy as np<cr>
             \import pandas as pd<cr>
             \import matplotlib.pyplot as plt<cr>
@@ -32,7 +57,7 @@ endif
             \import datetime<cr>
 
 "importing selenium dependencies.
-:iabbrev selenium_imports
+:iabbrev selenium_import
             \from selenium import webdriver<cr>
             \from selenium.webdriver.common.keys import Keys<cr>
             \from selenium.webdriver.support.ui import Select<cr>
@@ -68,14 +93,9 @@ endif
             \#plt.style.use()<cr>
             \#plt.show()<cr>
 
-"######################################################################
-"
+"------------------------------------------------------------------------------
 "IPYTHON
 "
-"#####################################################################
-" start ipython for the dataProject venv
-nnoremap <localleader>ss :vertical term<cr> source ~/.local/share/virtualenvs/ipython_venv-H1ieZZ_x/bin/activate<cr>\ipython<cr><C-w>h 
-
 " map <localleader>r to run script
 nnoremap <localleader>r :IPythonCellRun<CR>
 
@@ -84,6 +104,7 @@ nnoremap <localleader>R :IPythonCellRunTime<CR>
 
 " map <localleader>c to execute the current cell
 nnoremap <localleader><cr> :IPythonCellExecuteCell<CR>
+inoremap <localleader><cr> <esc>:IPythonCellExecuteCell<CR>
 
 " map <localleader>C to execute the current cell and jump to the next cell
 nnoremap <localleader>cj :IPythonCellExecuteCellJump<CR>
@@ -112,6 +133,4 @@ nnoremap <localleader>Q :IPythonCellRestart<CR>
 nnoremap <localleader>d :SlimeSend1 %debug<CR>
 
 " map <localleader>q to exit debug mode or IPython
-nnoremap <localleader>dq :SlimeSend1 exit<CR>   
-
-
+nnoremap <localleader>dq :SlimeSend1 exit<CR> 

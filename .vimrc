@@ -1,7 +1,7 @@
 :autocmd!
 :augroup buffscreen
-:autocmd!
-:autocmd BufEnter *.* silent! lcd %:p:h
+:   autocmd!
+:   autocmd BufEnter *.* silent! lcd %:p:h
 :augroup END
 
 syntax on "this activates syntax coloring 
@@ -31,6 +31,7 @@ set foldlevel=99
 set fileformat=unix
 set encoding=utf-8 " set text editing
 set fileencoding=utf-8
+set termguicolors
 set t_Co=256 " enable 256 colors
 set t_ut=
 set laststatus=2
@@ -38,73 +39,103 @@ set splitbelow
 set splitright
 set clipboard=unnamed
 set autochdir " set the vim dir to the file current dir
-"set termwinkey=<C-alt>
 set hidden
-
-let g:slime_target = "vimterminal"
-let g:ipython_cell_delimit_cells_by = "tags"
-let g:ipython_cell_tag = "# <codecell>"
-
-let g:jupyter_mapkeys = 0 "no key binding using with jupyter 
-"netrw line number
-let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
-" show hidden files.
-let NERDTreeShowHidden=1
-
+set linebreak
+set ignorecase
 set colorcolumn=80
 highlight ColorColumn ctermbg=0 guibg=lightgrey
+set cursorline
+"highlight clear cursorLine
+"highlight cursorLineNR ctermbg=green guibg=green
+set background=dark
 
+"------------------------------------------------------------------------------
 "plugin installation
-
 call plug#begin('~/.vim/plugged')
-
-Plug 'gruvbox-community/gruvbox'
+Plug 'morhetz/gruvbox'
 Plug 'sainnhe/gruvbox-material'
-Plug 'phanviet/vim-monokai-pro'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'flazz/vim-colorschemes'
 Plug 'ycm-core/YouCompleteMe', {'do': './install.py' }
-"Plug '/home/mpaulson/personal/vim-be-good'
-Plug 'jupyter-vim/jupyter-vim' " this install jupyter for vim
-Plug 'preservim/nerdtree'
+"Plug 'jupyter-vim/jupyter-vim' " this install jupyter for vim
 Plug 'tmhedberg/SimpylFold'
 Plug 'vim-scripts/indentpython.vim'
 Plug 'vim-syntastic/syntastic'
 Plug 'nvie/vim-flake8'
-Plug 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plug 'jpalardy/vim-slime', { 'for': 'python' }
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
-"Plug 'plytophogy/vim-virtualenv'
-"Plug 'PieterjanMontens/vim-pipenv'
-
+"Plug 'akiomik/git-gutter-vim' 
+Plug 'preservim/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'ryanoasis/vim-devicons'
+Plug 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plug 'junegunn/limelight.vim'
 call plug#end()
-"plugin installation end
-"---------------------------------------
+
+"------------------------------------------------------------------------------
+"slime and ipython settitngs
+let g:slime_target = "vimterminal"
+let g:ipython_cell_delimit_cells_by = "tags"
+let g:ipython_cell_tag = "# <codecell>"
+let g:jupyter_mapkeys = 0 "no key binding using with jupyter 
+
+"------------------------------------------------------------------------------
+" NerdTree settings
+"
+" show hidden files.
+let NERDTreeShowHidden=1
+"fix the width
+let g:NERDTreeWinSize=20
+"netrw line number
+let g:netrw_bufsettings = 'noma nomod nu nobl nowrap ro'
+let g:netrw_browse_split=2
+let g:netrw_banner = 0
+"let g:netrw_winsize = 25
+let g:NERDTreeGitStatusWithFlags = 1
+let g:NERDTreeGitStatusUseNerdFonts = 1
+let g:NERDTreeGitStatusConcealBrackets = 1
+let g:NERDTreeGitStatusIndicatorMapCustom = {
+                \ 'Modified'  :'✹',
+                \ 'Staged'    :'✚',
+                \ 'Untracked' :'✭',
+                \ 'Renamed'   :'➜',
+                \ 'Unmerged'  :'═',
+                \ 'Deleted'   :'✖',
+                \ 'Dirty'     :'✗',
+                \ 'Ignored'   :'☒',
+                \ 'Clean'     :'✔︎',
+                \ 'Unknown'   :'?',
+                \ }
+let g:airline_powerline_fonts = 1
+let g:NERDTreeGitStatusShowClean = 0
+let g:NERDTreeGitStatusUntrackedFilesMode = 'normal'
+let g:NERDTreeDirArrowExpandable = ''
+let g:NERDTreeDirArrowCollapsible = ''
+
+let g:NERDTreeHighlightFolders = 1 " enables folder icon highlighting using exact match
+let g:NERDTreeHighlightFoldersFullName = 1 " highlights the folder name
+
+"------------------------------------------------------------------------------
+"color scheme settings
+let g:gruvbox_material_background = 'medium'
+let g:gruvbox_material_enable_bold = 1
+let g:lightline = {'colorscheme': 'gruvbox-material'}
+"let g:airline_theme='zenburn'
+colorscheme gruvbox-material
+let g:gruvbox_italic=1
+"colorscheme gruvbox
+"------------------------------------------------------------------------------
+"YouCompleteMe settings
 "this ensures that YCM closes when done
 let g:ycm_autoclose_preview_window_after_completion=1
-
-colorscheme gruvbox
-set background=dark
-
 if executable('rg')
     let g:rg_derive_root='true'
 endif
 
-let g:netrw_browse_split=2
-let g:netrw_banner = 0
-let g:netrw_winsize = 25
-
-" Change python path for vim.
-"let pipenv_venv_path = system('pipenv --venv')
-"if shell_error == 0
-"  let venv_path = substitute(pipenv_venv_path, '\n', '', '')
-"  let $PYTHONPATH=venv_path . '/lib/python3.8/site-packages'
-"  let $PATH=venv_path . '/bin:' . $PATH
-"  let g:ycm_python_binary_path = venv_path . '/bin/python'
-"else
-"  let g:ycm_python_binary_path = 'python'
-"endif
-
+"------------------------------------------------------------------------------
+"latex augroup
 :augroup latexgroup
 
     "clear all autocommands
@@ -114,6 +145,7 @@ let g:netrw_winsize = 25
 
 :augroup END
 
+"python augroup
 :augroup pythongroup
 
     "clear all autocommands
@@ -123,7 +155,8 @@ let g:netrw_winsize = 25
 
 :augroup END
 
-
+"------------------------------------------------------------------------------
+"Mappings
 let mapleader = ' ' " this sets the leader key to space bar
 
 "map escape key to jk
@@ -151,13 +184,18 @@ nnoremap <leader>q :q!<cr>
 
 "commenting a line in vim file
 nnoremap <leader>cc 0i"<esc>$
+nnoremap <leader>cx mq0x`q
+inoremap <leader>cx <esc>mq0x`qi
 inoremap <leader>cc <esc>0i"<esc>$a
 
 "buffers toggle, increase and decrease buffers
-nnoremap <leader><leader> :wincmd w<cr>
+nnoremap <leader>hh :wincmd h<cr>
+nnoremap <leader>ll :wincmd l<cr>
 nnoremap <leader>+ :vertical resize +10<cr>
 nnoremap <leader>- :vertical resize -10<cr>
+nnoremap <leader>-- :resize -2<cr>
+nnoremap <leader>++ :resize +2<cr>
 
 " Nerdtree mappings
-"
 noremap <C-n> :NERDTreeToggle<cr>
+noremap <leader><leader> :NERDTreeRefreshRoot<cr>
