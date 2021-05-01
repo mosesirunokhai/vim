@@ -1,0 +1,44 @@
+"localleader for python files
+let maplocalleader = ' '
+
+"------------------------------------------------------------------------------
+"commenting a line 
+nnoremap <leader>cc 0i--<esc>$
+nnoremap <leader>cx mq0xx`q
+inoremap <leader>cx <esc>mq0xx`qi
+inoremap <leader>cc <esc>0i--<esc>$a
+
+"------------------------------------------------------------------------------
+"  Exiting the terminal
+function ExitTerm()
+    call feedkeys("\<c-w>", "t")
+    call feddkeys("k", "t")
+endfunction
+nnoremap <localleader>kk :call ExitTerm()
+
+"------------------------------------------------------------------------------
+" Open Terminal
+function OpenTerm()
+    if len(term_list()) == 0
+        execute "normal! :term\<cr>"
+        let s:term_no = term_list()
+        call term_setsize(s:term_no[0], 10, 0)
+        call feedkeys("\<c-w>", "t")
+        call feedkeys("k", "t")
+    endif
+endfunction
+call OpenTerm()
+
+"------------------------------------------------------------------------------
+" Executing a haskell file
+function ExecuteHsFile()
+    if len(term_list())==0
+        call OpenTerm()
+    endif
+    call term_sendkeys(s:term_no[0], "stack runhaskell \\")
+    call term_sendkeys(s:term_no[0], @%)
+    call term_sendkeys(s:term_no[0], "\<cr>")
+    call feedkeys("\<c-w>", "t")
+    call feedkeys("k", "t")
+endfunction
+nnoremap <localleader><cr> :call ExecuteHsFile()<cr>

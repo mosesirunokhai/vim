@@ -48,6 +48,7 @@ set cursorline
 "highlight clear cursorLine
 "highlight cursorLineNR ctermbg=green guibg=green
 set background=dark
+set title
 
 "------------------------------------------------------------------------------
 "plugin installation
@@ -135,6 +136,17 @@ if executable('rg')
 endif
 
 "------------------------------------------------------------------------------
+"nerdtree augroup
+:augroup nerdtreegroup
+
+    "clear all autocommands
+    :autocmd!
+    "Open nerdtree in new tabs
+"    autocmd VimEnter * NERDTree
+"    autocmd BufWinEnter * NERDTreeMirror
+
+:augroup END
+
 "latex augroup
 :augroup latexgroup
 
@@ -152,6 +164,16 @@ endif
     :autocmd!
     "load the vimrc for python files
     :autocmd BufNewFile,BufRead *.py,*.pyw :source ~/.pyvimrc
+
+:augroup END
+
+"haskell augroup
+:augroup haskellgroup
+
+    "clear all autocommands
+    :autocmd!
+    "load the vimrc for python files
+    :autocmd BufNewFile,BufRead *.hs :source ~/.haskellvimrc
 
 :augroup END
 
@@ -193,8 +215,8 @@ nnoremap <leader>hh :wincmd h<cr>
 nnoremap <leader>ll :wincmd l<cr>
 nnoremap <leader>+ :vertical resize +10<cr>
 nnoremap <leader>- :vertical resize -10<cr>
-nnoremap <leader>-- :resize -2<cr>
-nnoremap <leader>++ :resize +2<cr>
+nnoremap <leader>-- :resize -10<cr>
+nnoremap <leader>++ :resize +10<cr>
 
 " Nerdtree mappings
 noremap <C-n> :NERDTreeToggle<cr>
