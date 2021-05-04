@@ -135,6 +135,7 @@ if executable('rg')
     let g:rg_derive_root='true'
 endif
 
+
 "------------------------------------------------------------------------------
 "nerdtree augroup
 :augroup nerdtreegroup
@@ -213,6 +214,7 @@ inoremap <leader>cc <esc>0i"<esc>$a
 "buffers toggle, increase and decrease buffers
 nnoremap <leader>hh :wincmd h<cr>
 nnoremap <leader>ll :wincmd l<cr>
+nnoremap <leader>jj :wincmd j<cr>
 nnoremap <leader>+ :vertical resize +10<cr>
 nnoremap <leader>- :vertical resize -10<cr>
 nnoremap <leader>-- :resize -10<cr>
@@ -221,3 +223,6 @@ nnoremap <leader>++ :resize +10<cr>
 " Nerdtree mappings
 noremap <C-n> :NERDTreeToggle<cr>
 noremap <leader><leader> :NERDTreeRefreshRoot<cr>
+
+" Terminal mappings
+tnoremap <C-k> <c-w>k
